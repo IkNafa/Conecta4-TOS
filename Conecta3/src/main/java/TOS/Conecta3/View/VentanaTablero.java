@@ -1,4 +1,4 @@
-package TOS.Conecta4.View;
+package TOS.Conecta3.View;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import TOS.Conecta4.Model.GestorPartida;
-import TOS.Conecta4.Model.Tablero;
+import TOS.Conecta3.Model.GestorPartida;
+import TOS.Conecta3.Model.Tablero;
 
 public class VentanaTablero extends JFrame {
 

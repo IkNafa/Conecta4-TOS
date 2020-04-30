@@ -1,25 +1,23 @@
 package TOS.Conecta3.View;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 
 public class VentanaConf extends JDialog {
 	
+	private static final long serialVersionUID = -4258433130371462079L;
 	private MenuPrincipal menuPrincipal;
 	private int modoBot;
 	
@@ -49,6 +47,7 @@ public class VentanaConf extends JDialog {
 	private void initialize() {
 		setBounds(100, 100, 250, 350);
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
+		setTitle("Configuracion");
 		setVisible(true);
 	}
 

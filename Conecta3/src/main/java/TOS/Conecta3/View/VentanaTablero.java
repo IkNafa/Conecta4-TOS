@@ -1,6 +1,6 @@
 package TOS.Conecta3.View;
 
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,16 +18,17 @@ import javax.swing.border.MatteBorder;
 
 import TOS.Conecta3.Controller.Tablero;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
 public class VentanaTablero extends JFrame {
+
+	
+	private static final long serialVersionUID = -7605383656197154375L;
 	private static final int COLUMNAS = 9;
 	private static final int FILAS = 6;
 	private static final char COLOR_J1 = 'r';
 	private static final char COLOR_J2 = 'v';
 	private int modoBot;
 	private int turno;
+	private long tiempoInicial;
 	
 	private JPanel panelJugadores;
 	private JPanel panel;
@@ -36,27 +38,13 @@ public class VentanaTablero extends JFrame {
 	private JLabel lblTurno_2;
 	private JLabel[][] lblCasillas;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaTablero frame = new VentanaTablero(0);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaTablero(int pModoBot) {
 		modoBot = pModoBot;
+		tiempoInicial = System.currentTimeMillis();
 		Tablero.getTablero().setDimensiones(FILAS, COLUMNAS);
 		initialize();
 	}
@@ -80,6 +68,7 @@ public class VentanaTablero extends JFrame {
 		gbc_panel.gridy = 1;
 		getContentPane().add(getPanel(), gbc_panel);
 		
+		setTitle("Conecta 3 - La secuela");
 		setResizable(false);
 		setVisible(true);
 	}
@@ -130,7 +119,7 @@ public class VentanaTablero extends JFrame {
 	}
 	private JLabel getLblTurno_1() {
 		if (lblTurno_1 == null) {
-			lblTurno_1 = new JLabel("turno_1");
+			lblTurno_1 = new JLabel();
 			lblTurno_1.setBounds(getWidth()/5-12, 10, 25, 25);
 			
 			Image image = new ImageIcon(getClass().getResource("/turno.png")).getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT);
@@ -140,11 +129,8 @@ public class VentanaTablero extends JFrame {
 	}
 	private JLabel getLblTurno_2() {
 		if (lblTurno_2 == null) {
-			lblTurno_2 = new JLabel("turno_2");
+			lblTurno_2 = new JLabel();
 			lblTurno_2.setBounds(getWidth()*4/5-12, 10, 25, 25);
-			
-			Image image = new ImageIcon(getClass().getResource("/turno.png")).getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT);
-			lblTurno_2.setIcon(new ImageIcon(image));
 		}
 		return lblTurno_2;
 	}
@@ -172,9 +158,10 @@ public class VentanaTablero extends JFrame {
 					
 					Tablero.getTablero().anadirElemento(turno==0?COLOR_J1:COLOR_J2, num+1);
 					actualizarTablero();
+					cambiarTurno();
 					
-					if(!partidaFinalizada()) {
-						
+					if(!partidaFinalizada() && modoBot != 0) {
+						lanzarBot();
 					}
 					
 				}
@@ -216,10 +203,65 @@ public class VentanaTablero extends JFrame {
 	}
 	
 	private boolean partidaFinalizada() {
-		if(Tablero.getTablero().getGanador() != ' ' || Tablero.getTablero().estaLleno()) {
+		char c;
+		if((c = Tablero.getTablero().getGanador()) != ' ' || Tablero.getTablero().estaLleno()) {
+			
+			long puntuacion = System.currentTimeMillis() - tiempoInicial;
+			String msg = new String();
+			boolean guardar=false;
+			if(c == ' ') {
+				msg = "¡HA HABIDO UN EMPATE!";
+			}else {
+				if(c == COLOR_J1) {
+					if(modoBot == 0) {
+						msg = "¡HA GANADO JUGADOR 1!";
+					}else {
+						msg = "¡HAS GANADO!";
+						guardar = true;
+					}
+				}else {
+					if(modoBot == 0) {
+						msg = "¡HA GANADO JUGADOR 2!";
+					}else {
+						msg = "¡HAS PERDIDO!";
+					}
+				}
+				
+				new VentanaResultado(VentanaTablero.this, msg, guardar,puntuacion,modoBot);
+				new MenuPrincipal();
+				dispose();
+			}
+			
+			
+			
 			return true;
 		}
 		
 		return false;
+	}
+	
+	private void lanzarBot() {
+		
+		Random r = new Random();
+		
+		while(!Tablero.getTablero().anadirElemento(COLOR_J2, r.nextInt(COLUMNAS)+1));
+		
+		actualizarTablero();
+		cambiarTurno();
+		partidaFinalizada();
+	}
+	
+	private void cambiarTurno() {
+		turno = turno == 0?1:0;
+		
+		Image image = new ImageIcon(getClass().getResource("/turno.png")).getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT);
+		if(turno == 0) {
+			lblTurno_1.setIcon(new ImageIcon(image));
+			lblTurno_2.setIcon(null);
+		}else {
+			lblTurno_1.setIcon(null);
+			lblTurno_2.setIcon(new ImageIcon(image));
+		}
+
 	}
 }

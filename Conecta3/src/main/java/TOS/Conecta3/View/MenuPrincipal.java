@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -23,6 +22,8 @@ import javax.swing.JButton;
 
 public class MenuPrincipal extends JFrame {
 
+
+	private static final long serialVersionUID = 1838309628406358163L;
 	private int numJugadores;
 	private int modoBot;
 	
@@ -69,6 +70,7 @@ public class MenuPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.add(getPanel(), BorderLayout.CENTER);
 		
+		setTitle("Conecta 3 - La secuela");
 		setResizable(false);
 		setVisible(true);
 	}
@@ -194,7 +196,7 @@ public class MenuPrincipal extends JFrame {
 					if(numJugadores == 0) {
 						JOptionPane.showMessageDialog(MenuPrincipal.this, "Elige un modo de juego");
 					}else {
-						new VentanaTablero(numJugadores==1?0:modoBot+1);
+						new VentanaTablero(numJugadores==2?0:modoBot+1);
 						dispose();
 					}
 					
@@ -229,6 +231,13 @@ public class MenuPrincipal extends JFrame {
 		if (btnRanking == null) {
 			btnRanking = new JButton("RANKING");
 			btnRanking.setBounds(581, 401, 117, 25);
+			btnRanking.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent arg0) {
+					new VentanaRanking(MenuPrincipal.this);
+					
+				}
+			});
 		}
 		return btnRanking;
 	}

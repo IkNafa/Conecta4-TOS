@@ -11,6 +11,10 @@ public class Columna {
 		}
 	}
 	
+	private Columna(char[] pElementos) {
+		elementos = pElementos;
+	}
+	
 	private int elementosEnColumna() {
 		int num = 0;
 		for (int i = 0; i < elementos.length; i++) {
@@ -47,6 +51,11 @@ public class Columna {
 		}
 		
 		return cadena;
+	}
+	
+	@Override
+	public Columna clone() {
+		return new Columna(elementos.clone());
 	}
 	
 }

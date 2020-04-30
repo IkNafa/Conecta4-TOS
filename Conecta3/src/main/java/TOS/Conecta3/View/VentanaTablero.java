@@ -242,9 +242,14 @@ public class VentanaTablero extends JFrame {
 	
 	private void lanzarBot() {
 		
-		Random r = new Random();
-		
-		while(!Tablero.getTablero().anadirElemento(COLOR_J2, r.nextInt(COLUMNAS)+1));
+		if(modoBot == 1) {
+			Random r = new Random();
+			
+			while(!Tablero.getTablero().anadirElemento(COLOR_J2, r.nextInt(COLUMNAS)+1));
+		}else {
+			Tablero.getTablero().anadirElemento(COLOR_J2, Tablero.getTablero().getMejorJugada(COLOR_J2));
+		}
+
 		
 		actualizarTablero();
 		cambiarTurno();

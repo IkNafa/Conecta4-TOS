@@ -1,26 +1,29 @@
 package TOS.Conecta3.View;
 
 import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
 import TOS.Conecta3.Controller.Tablero;
 
 import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.Font;
 import java.awt.Color;
 
-public class VentanaTablero extends JFrame {
+public class VentanaConf extends JDialog {
+	
 	private static final int COLUMNAS = 9;
 	private static final int FILAS = 6;
 	private static final char COLOR_J1 = 'r';
@@ -43,8 +46,9 @@ public class VentanaTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaTablero frame = new VentanaTablero(0);
-					frame.setVisible(true);
+					VentanaConf dialog = new VentanaConf(0);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,11 +57,12 @@ public class VentanaTablero extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the dialog.
 	 */
-	public VentanaTablero(int pModoBot) {
+	public VentanaConf(int pModoBot) {
+		
 		modoBot = pModoBot;
-		Tablero.getTablero().setDimensiones(FILAS, COLUMNAS);
+		
 		initialize();
 	}
 	private void initialize() {
@@ -151,9 +156,10 @@ public class VentanaTablero extends JFrame {
 		for(int i = 0; i<COLUMNAS;i++) {
 			final JLabel lblFlecha = new JLabel();
 			int x = (getWidth() - 75*COLUMNAS)/2 + 75*i;
-			lblFlecha.setBounds(x, 0, 75, 50);
-			lblFlecha.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			lblFlecha.setBounds(x, 0, 50, 50);
+			
 			final Image image = new ImageIcon(getClass().getResource("/flecha.png")).getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT);
+			lblFlecha.setIcon(new ImageIcon(image));
 			final int num = i;
 			lblFlecha.addMouseListener(new MouseAdapter() {
 				
@@ -168,11 +174,6 @@ public class VentanaTablero extends JFrame {
 				public void mouseClicked(MouseEvent arg0) {
 					
 					Tablero.getTablero().anadirElemento(turno==0?COLOR_J1:COLOR_J2, num+1);
-					actualizarTablero();
-					
-					if(!partidaFinalizada()) {
-						
-					}
 					
 				}
 			});
@@ -191,7 +192,6 @@ public class VentanaTablero extends JFrame {
 				int x = (getWidth() - 75*COLUMNAS)/2 + 75*i;
 				lblCasillas[fila][i].setBounds(x, 50 + 75*(fila), 75, 75);
 				lblCasillas[fila][i].setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
-				lblCasillas[fila][i].setHorizontalAlignment((int) CENTER_ALIGNMENT);
 				
 				pPanel.add(lblCasillas[fila][i]);
 			}
@@ -199,24 +199,4 @@ public class VentanaTablero extends JFrame {
 
 	}
 	
-	private void actualizarTablero() {
-		char[][] fichas = Tablero.getTablero().getFichas();
-		
-		for(int i = 0; i<fichas.length; i++) {
-			for(int j = 0; j<fichas[i].length; j++) {
-				if(fichas[i][j] != ' ') {
-					Image image = new ImageIcon(getClass().getResource("/ficha-"+fichas[i][j]+".png")).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT);
-					lblCasillas[i][j].setIcon(new ImageIcon(image));
-				}
-			}
-		}
-	}
-	
-	private boolean partidaFinalizada() {
-		if(Tablero.getTablero().getGanador() != ' ' || Tablero.getTablero().estaLleno()) {
-			return true;
-		}
-		
-		return false;
-	}
 }

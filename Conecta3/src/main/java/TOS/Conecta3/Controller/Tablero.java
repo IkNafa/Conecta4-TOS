@@ -1,6 +1,8 @@
-package TOS.Conecta3.Model;
+package TOS.Conecta3.Controller;
 
 import java.util.ArrayList;
+
+import TOS.Conecta3.Model.Columna;
 
 public class Tablero {
 	private static Tablero mTablero;

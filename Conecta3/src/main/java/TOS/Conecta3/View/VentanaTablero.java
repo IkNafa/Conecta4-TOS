@@ -79,6 +79,9 @@ public class VentanaTablero extends JFrame {
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 1;
 		getContentPane().add(getPanel(), gbc_panel);
+		
+		setResizable(false);
+		setVisible(true);
 	}
 
 	private JPanel getPanelJugadores() {

@@ -64,8 +64,11 @@ public class VentanaResultado extends JDialog {
 		if (lblLogo == null) {
 			lblLogo = new JLabel();
 			lblLogo.setBounds(200, 10, 100, 100);
-			
-			Image image = new ImageIcon(getClass().getResource("/logo.png")).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+			Image image = null;
+			if(guardar && msg.contains("GANADO"))
+				image = new ImageIcon(getClass().getResource("/win.gif")).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+			else
+				image = new ImageIcon(getClass().getResource("/logo.png")).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
 			lblLogo.setIcon(new ImageIcon(image));
 		}
 		return lblLogo;

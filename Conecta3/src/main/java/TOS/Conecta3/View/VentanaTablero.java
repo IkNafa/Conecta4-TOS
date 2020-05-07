@@ -25,7 +25,7 @@ public class VentanaTablero extends JFrame {
 	private static final int COLUMNAS = 9;
 	private static final int FILAS = 6;
 	private static final char COLOR_J1 = 'r';
-	private static final char COLOR_J2 = 'v';
+	private static final char COLOR_J2 = 'a';
 	private int modoBot;
 	private int turno;
 	private long tiempoInicial;
@@ -96,7 +96,7 @@ public class VentanaTablero extends JFrame {
 	private JLabel getLblJ_1() {
 		if (lblJ_1 == null) {
 			lblJ_1 = new JLabel("JUGADOR 1");
-			lblJ_1.setForeground(Color.BLUE);
+			lblJ_1.setForeground(Color.RED);
 			lblJ_1.setFont(new Font("DialogInput", Font.BOLD, 20));
 			lblJ_1.setBounds(getWidth()/5-75, 40, 150, 25);
 			
@@ -108,7 +108,7 @@ public class VentanaTablero extends JFrame {
 	private JLabel getLblJ_2() {
 		if (lblJ_2 == null) {
 			lblJ_2 = new JLabel(modoBot==0?"JUGADOR 2":"BOT_TOS");
-			lblJ_2.setForeground(Color.GREEN);
+			lblJ_2.setForeground(Color.BLUE);
 			lblJ_2.setFont(new Font("DialogInput", Font.BOLD, 20));
 			lblJ_2.setBounds(getWidth()*4/5 - 75, 40, 150, 25);
 			

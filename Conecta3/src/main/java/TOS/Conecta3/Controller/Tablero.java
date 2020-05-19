@@ -171,14 +171,17 @@ public class Tablero {
 		int mejorIndice = -1;
 		
 		for(int i = 0; i<columnas.length;i++) {
-			Columna[] nColumnas = getCopia();
-			nColumnas[i].push(pChar);
-			
-			int resul = eval(nColumnas, pChar);
-			if(resul > mejorResul) {
-				mejorResul = resul;
-				mejorIndice = i+1;
+			if(!columnas[i].full()) {
+				Columna[] nColumnas = getCopia();
+				nColumnas[i].push(pChar);
+				
+				int resul = eval(nColumnas, pChar);
+				if(resul > mejorResul) {
+					mejorResul = resul;
+					mejorIndice = i+1;
+				}
 			}
+
 		}
 		
 		return mejorIndice;
